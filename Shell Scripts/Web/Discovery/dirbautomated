@@ -1,0 +1,16 @@
+#!/bin/bash
+highintred='\033[0;91m'
+boldgreen='\033[1;32m'
+reset='\033[0m'
+echo -e "${highintred}------------------${reset}"
+echo -e "${highintred}--dirb-Automated--${reset}"
+echo -e "${highintred}------------------${reset}"
+echo
+read -p "Website (with http/https): " site
+read -p "Wordlist path: " wrdlst
+dirb $site $wrdlst
+
+
+echo
+read -p "Press Enter to continue."
+exit

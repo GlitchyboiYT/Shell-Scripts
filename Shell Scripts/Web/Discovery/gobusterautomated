@@ -1,0 +1,66 @@
+#!/bin/bash
+show_menu(){
+	while true; do
+		clear
+		echo "========================="
+		echo
+		echo " Gobuster Automated V1.1 "
+		echo
+		echo "========================="
+		echo
+		echo
+		echo "--------------------------------"
+		echo "[1] Website Directory Finder"
+		echo "[2] Website Subdomain Finder"
+		echo "[3] Exit"
+		echo "--------------------------------"
+
+		read -p "What do you want to do? " opt
+		case $opt in
+			1)
+				echo Starting...
+				sleep 3
+				clear
+				echo "----------------"
+				echo "-Directory-Mode-"
+				echo "----------------"
+				echo
+				read -p "Type the website you want to discover: " site
+				read -p "Wordlist path: " wl
+				gobuster dir -u $site -w $wl -q
+
+
+				echo
+				read -p "Press Enter to continue." temp
+				show_menu
+				;;
+			2)
+				echo Starting...
+				sleep 3
+				clear
+				echo "----------------"
+				echo "-Subdomain-Mode-"
+				echo "----------------"
+				echo
+				read -p "Type the Website you want to discover: " site
+				read -p "Wordlist path: " wl
+				gobuster dns -u $site -w $wl -q
+
+
+				echo
+				read -p "Press Enter to continue."
+				show_menu
+				;;
+			3)
+				clear
+				exit
+				;;
+			*)
+				clear
+				echo "Not an Option. Try Again."
+				sleep 2
+				show_menu
+			esac
+	done
+}
+show_menu

@@ -1,0 +1,57 @@
+#!/bin/bash
+cd /home/$USER/Desktop/'Shell Scripts'/
+clear
+highintred='\033[0;91m'
+boldgreen='\033[1;32m'
+reset='\033[0m'
+echo -e "${highintred}------------------------${reset}"
+echo -e "${highintred}--Shell-Script-Manager--${reset}"
+echo -e "${highintred}------------------------${reset}"
+echo
+echo "========================"
+echo -e "${boldgreen}[1] Hydra Automated${reset}"
+echo -e "${boldgreen}[2] MDK4 Automated${reset}"
+echo -e "${boldgreen}[3] Gobuster Automated${reset}"
+echo -e "${boldgreen}[4] John WiFi Automated${reset}"
+echo -e "${boldgreen}[5] dirb Automated"
+echo -e "${boldgreen}[6] Network Manager${reset}"
+echo -e "${boldgreen}[7] Fix Interface${reset}"
+echo "========================"
+echo
+read -p "Choice: " opt
+case $opt in
+	1)
+		clear
+		./Bruteforcing/hydraautomated
+		;;
+	2)
+		clear
+		./Network/Attack/mdk4automated
+		;;
+	3)
+		clear
+		./Web/Discovery/gobusterautomated
+		;;
+	4)
+		clear
+		./Bruteforcing/johnwifiautomated
+		;;
+	5)
+		clear
+		./Web/Discovery/dirbautomated
+		;;
+	6)
+		clear
+		./Network/Me/NetworkManager.sh
+		;;
+	7)
+		clear
+		./Network/Me/fixint.sh
+		;;
+	*)
+		clear
+		echo "Not an option."
+		sleep 1
+		;;
+	esac
+exit

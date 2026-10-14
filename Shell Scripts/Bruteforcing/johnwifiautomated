@@ -1,0 +1,17 @@
+#!/bin/bash
+clear
+cd ~/hs
+highintred='\033[0;91m'
+reset='\033[0m'
+echo -e "${highintred}-----------------------${reset}"
+echo -e "${highintred}--John-WiFi-Automated--${reset}"
+echo -e "${highintred}-----------------------${reset}"
+echo
+read -p "Wordlist Path: " wrdlst
+read -p "Handshake File: " hndfle
+john --wordlist=$wrdlst $hndfle
+
+
+echo
+read -p "Press Enter to continue."
+exit
