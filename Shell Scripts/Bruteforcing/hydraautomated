@@ -1,23 +1,32 @@
 #!/bin/bash
 clear
+hir='\033[0;91m'
+bg='\033[1;32m'
+bb='\033[1;34m'
+hiy='\033[0;93m'
+reset='\033[0m'
 show_menu(){
 	while true; do
 	clear
-	echo "--------------------------"
-	echo
-	echo "  Hydra Bruteforcer V1.1  "
-	echo "        -Glitch           "
-	echo "--------------------------"
+	echo -e "${hir}--------------------------${reset}"
+	echo -e "${hir}--Hydra-Bruteforcer-V1.7--${reset}"
+	echo -e "${hir}--------by-Glitch---------${reset}"
+	echo -e "${hir}--------------------------${reset}"
 	echo
 	echo "=========================="
-	echo "Available Services:"
-	echo "[1] HTTP"
-	echo "[2] SSH"
-	echo "[3] FTP"
-	echo "[4] RDP"
+	echo -e "${hiy}Available Services:${reset}"
+	echo -e "${bg}[1] HTTP${reset}"
+	echo -e "${bg}[2] SSH${reset}"
+	echo -e "${bg}[3] FTP${reset}"
+	echo -e "${bg}[4] RDP${reset}"
+	echo -e "${bg}[5] VNC${reset}"
+	echo -e "${bg}[6] Telnet${reset}"
+	echo -e "${bg}[7] Oracle${reset}"
+	echo -e "${bg}[8] SNMP${reset}"
+	echo -e "${bg}[9] SMTP${reset}"
 	echo "=========================="
 	echo
-	read -p "Choose what you want to bruteforce: " opt
+	read -p "$(echo -e "${bb}Service for bruteforcing:${reset} ")" opt
 	case $opt in
 
 		1)
@@ -52,11 +61,11 @@ show_menu(){
 					echo "Login Box Selected."
 					sleep 1
 					read -p  "Please write the directory of login box(ex. website.com[/directory/]): " dirlogbox
-					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh $httpsite http-get $dirlogbox < /dev/null
+					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh $httpsite -vV -t 4 http-get $dirlogbox < hydrafeedback.txt
 
 
 					echo
-					read -p "press anything to go back to menu."
+					read -p "Press Enter to go back to menu."
 					;;
 				2)
 					clear
@@ -65,11 +74,11 @@ show_menu(){
 					read -p "Please write the directory of get perms(ex. website.com[/directory.php/ or /directory/]): " dirgetperms
 					read -p "Username box name: " nameofuserboxget
 					read -p "Password box name: " nameofpassboxget
-					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh 'http-get://"'$httpsite'"/"'$dirgetperms'"?username="'$nameofuserboxget'"&password="'$nameofpassboxget'"' < /dev/null
+					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh 'http-get://"'$httpsite'"/"'$dirgetperms'"?username="'$nameofuserboxget'"&password="'$nameofpassboxget'"' < hydrafeedback.txt
 
 
 					echo
-					read -p "press anything to go back to menu." a
+					read -p "Press Enter to go back to menu." a
 					;;
 				3)
 					clear
@@ -80,11 +89,11 @@ show_menu(){
 					read -p "Password box name: " nameofpassboxpost
 					read -p "Submit box name: " nameofsubmitpost
 					read -p "Failed text: " nameofloginfailed
-					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh $httpsite http-post-form "$dirpostperms":user="$nameofuserboxpost"&pass="$nameofpassboxpost"&login="$nameofsubmitpost":F="$nameofloginfailed" < /dev/null
+					hydra -$pathoruserh $usernameh -$pathorpassh $passwordh $httpsite -t 4 -vV http-post-form "$dirpostperms":user="$nameofuserboxpost"&pass="$nameofpassboxpost"&login="$nameofsubmitpost":F="$nameofloginfailed" < hydrafeedback.txt
 
 
 					echo
-					read -p "press anything to go back to menu."
+					read -p "Press Enter to go back to menu."
 					;;
 				esac
 			;;
@@ -114,11 +123,11 @@ show_menu(){
 					passorpasss=p
 					;;
 				esac
-			hydra -$pathorusers $passwords -$pathorpasss $usernames -s $ports ssh://$iphost < /dev/null
+			hydra -$pathorusers $passwords -$pathorpasss $usernames -s -t 4 -vV $ports ssh://$iphost < hydrafeedback.txt
 
 
 			echo
-			read -p "press anything to go back to menu." a
+			read -p "Press Enter to go back to menu." a
 			;;
 		3)
 			clear
@@ -146,15 +155,16 @@ show_menu(){
 					pathorpassf=p
 					;;
 				esac
-			hydra -$pathoruserf $usernamef -$pathorpassf $passwordf -s $portf ftp://$iphostf < /dev/null
+			hydra -$pathoruserf $usernamef -$pathorpassf $passwordf -vV -t 4 -s $portf ftp://$iphostf < hydrafeedback.txt
 
 
 			echo
-			read -p "press anything to go back to menu" a
+			read -p "Press Enter to go back to menu" a
 			;;
 		4)
 			clear
 			echo "RDP Selected."
+			sleep 1
 			read -p "Do you want to specify domain? [Y/N] " dodomainr
 			case $dodomainr in
 				[yY])
@@ -181,11 +191,11 @@ show_menu(){
 							pathorpassr=p
 							;;
 						esac
-					hydra -s $portr -vV rdp://"$iphostr"/$domainr -$pathoruserr $usernamer -$pathorpassr $passwordr < /dev/null
+					hydra -s $portr -vV -t 4 rdp://"$iphostr"/$domainr -$pathoruserr $usernamer -$pathorpassr $passwordr < hydrafeedback.txt
 
 
 					echo
-					read -p "press anything to go back to menu." b
+					read -p "Press Enter to go back to menu." b
 					;;
 				[nN])
 					read -p "Port: " portr
@@ -210,19 +220,206 @@ show_menu(){
 							pathorpassr=P
 							;;
 						esac
-					hydra -s $portr -vV rdp://$iphostr -$pathoruserr $usernamer -$pathorpassr $passwordr < /dev/null
+					hydra -s $portr -vV -t 4 rdp://$iphostr -$pathoruserr $usernamer -$pathorpassr $passwordr < hydrafeedback.txt
 
 
 					echo
-					read -p "press anything to go back to menu." c
+					read -p "Press Enter to go back to menu." c
 					;;
 				esac
+			;;
+		5)
+			clear
+			echo "VNC Selected."
+			sleep 1
+			read -p "Path to Passwords: " passwordv
+			read -p "Port: " portv
+			read -p "IP: " iphostv
+			hydra -vV -P $passwordv -s $portv $iphostv vnc -t 4
+
+
+			echo
+			read -p "Press Enter to go back to menu." d
+			;;
+		6)
+			clear
+			echo "Telnet Selected."
+			sleep 1
+			read -p "path[1] or one username[2]? " put
+			read -p "path[2] or one password[2]? " ppt
+			read -p "Type path to usernames or type a username to use: " usernamet
+			read -p "Type path to passwords or type a password to use: " passwordt
+			read -p "IP: " iphostt
+			read -p "Port: " portt
+			case $put in
+				1)
+					pathorusert=L
+					;;
+				2)
+					pathorusert=l
+					;;
+				esac
+			case $ppt in
+				1)
+					pathorpasst=P
+					;;
+				2)
+					pathorpasst=p
+					;;
+				esac
+			hydra -$pathorusert $usernamet -$pathorpasst $passwordt -vV -t 4 -s $portt $iphostt telnet
+
+
+			echo
+			read -p "Press Enter to go back to menu." e
+			;;
+		7)
+			clear
+			echo "Oracle Selected."
+			sleep 1
+			read -p "path[1] or one username[2]? " puo
+			read -p "path[1] or one password[2]? " ppo
+			read -p "Type path to usernames or type a username to use: " usernameo
+			read -p "Type path to passwords or type a password to use: " passwordo
+			read -p "IP or Domain: " iphosto
+			read -p "Port (empty=default): " porto
+			case $puo in
+				1)
+					pathorusero=L
+					;;
+				2)
+					pathorusero=l
+					;;
+				esac
+			case $ppo in
+				1)
+					pathorpasso=P
+					;;
+				2)
+					pathorpasso=p
+					;;
+				esac
+			case $porto in
+				"")
+					actualporto=1521
+					;;
+				*)
+					actualporto=$porto
+					;;
+				esac
+			hydra -$pathorusero $usernameo -$pathorpasso $passwordo -vV -t 4 oracle://$iphosto:$actualporto/ORCL
+
+
+			echo
+			read -p "Press Enter to go back to menu." f
+			;;
+		8)
+			clear
+			echo "SNMP Selected."
+			sleep 1
+			read -p "Is a Username used? [Y/n] " usrynsn
+			case $usrynsn in
+				[Yy])
+					read -p "path[1] or one username[2]? " pusn
+					read -p "Type path to usernames or type a username to use: " usernamesn
+					read -p "path[1] or one password[2]? " ppsn
+					read -p "Type path to passwords or type a password to use: " passwordsn
+					usrusedsn=true
+					;;
+				[Nn])
+					read -p "Type Path to passwords: " passwordsn
+					usrusedsn=false
+					;;
+				esac
+			read -p "IP, Hostname or Domain: " iphostsn
+			read -p "Port (empty=default): " portsn
+			case $portsn in
+				"")
+					actualport=161
+					;;
+				*)
+					actualport=$portsn
+					;;
+				esac
+			case $pusn in
+				1)
+					pathorusersn=L
+					;;
+				2)
+					pathorusersn=l
+					;;
+				esac
+			case $ppsn in
+				1)
+					pathorpasssn=P
+					;;
+				2)
+					pathorpasssn=p
+					;;
+				esac
+			if [[ "$usrusedsn" == "true" ]]; then
+				hydra -$pathorusersn $usernamesn -$pathorpasssn $passwordsn -vV -t 4 snmp://$iphostsn:$actualport
+
+
+				echo
+				read -p "Press Enter to go back to menu." g
+			elif [[ "$usrusedsn" == "false" ]]; then
+				hydra -P $passwordsn -vV -t 4 snmp://$iphostsn:$actualport
+
+
+				echo
+				read -p "Press Enter to go back to menu." g
+			fi
+			;;
+		9)
+			clear
+			echo "SMTP Selected."
+			sleep 1
+			read -p "IP or Domain: " iphostsm
+			read -p "Port (empty=default): " portsm
+			read -p "[M]odern or [L]egacy? " modacysm
+			read -p "path[1] or one username[2]? " pusm
+			read -p "path[1] or one password[2]? " ppsm
+			case $pusm in
+				1)
+					pathorusersm=L
+					;;
+				2)
+					pathorusersm=l
+					;;
+				esac
+			case $ppsm in
+				1)
+					pathorpasssm=P
+					;;
+				2)
+					pathorpasssm=p
+					;;
+				esac
+			read -p "Type path to usernames or type a username to use: " usernamesm
+			read -p "Type path to passwords or type a password to use: " passwordsm
+			case $portsm in
+				"")
+					if [[ "$modacysm" == "M" || "$modacysm" == "m" ]]; then
+						actualport=587
+					elif [[ "$modacysm" == "L" || "$modacysm" == "l" ]]; then
+						actualport=25
+					fi
+					;;
+				*)
+					actualport=$portsm
+					;;
+				esac
+			hydra -$pathorusersm $usernamesm -$pathorpasssm $passwordsm smtp://$iphostsm:$actualport
+
+
+			echo
+			read -p "Press Enter to go back to menu." h
 			;;
 		*)
 			clear
 			echo "Not an Option. Try again."
 			sleep 2
-			show_menu
 			;;
 		esac
 	done

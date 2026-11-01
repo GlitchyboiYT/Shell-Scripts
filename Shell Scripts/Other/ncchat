@@ -1,0 +1,34 @@
+#!/bin/bash
+clear
+publicip=$(curl icanhazip.com)
+localip=$(ip a | grep "inet " | grep -v "127.0.0.1" | awk '{print $2}' | cut -d'/' -f1)
+clear
+hib='\033[0;94m'
+hir='\033[0;91m'
+reset='\033[0m'
+echo -e "${hir}-----------------------${reset}"
+echo -e "${hir}--${hib}Netcat${hir}-Chat-Program--${reset}"
+echo -e "${hir}-----------------------${reset}"
+read -p "Port: " port
+read -p "Host[1] or Connect[2]? " hc
+case $hc in
+	1)
+		echo "Your IP is '$publicip'"
+		echo "Your Local IP is '$localip'"
+		nc -lvp $port
+
+
+		echo
+		read -p "Press Enter to exit." temp
+		exit
+		;;
+	2)
+		read -p "IP you want to connect to: " hostip
+		nc $hostip $port
+
+
+		echo
+		read -p "Press Enter to exit." temp
+		exit
+		;;
+	esac

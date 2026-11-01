@@ -3,55 +3,224 @@ cd /home/$USER/Desktop/'Shell Scripts'/
 clear
 highintred='\033[0;91m'
 boldgreen='\033[1;32m'
+boldblue='\033[1;34m'
 reset='\033[0m'
-echo -e "${highintred}------------------------${reset}"
-echo -e "${highintred}--Shell-Script-Manager--${reset}"
-echo -e "${highintred}------------------------${reset}"
-echo
-echo "========================"
-echo -e "${boldgreen}[1] Hydra Automated${reset}"
-echo -e "${boldgreen}[2] MDK4 Automated${reset}"
-echo -e "${boldgreen}[3] Gobuster Automated${reset}"
-echo -e "${boldgreen}[4] John WiFi Automated${reset}"
-echo -e "${boldgreen}[5] dirb Automated"
-echo -e "${boldgreen}[6] Network Manager${reset}"
-echo -e "${boldgreen}[7] Fix Interface${reset}"
-echo "========================"
-echo
-read -p "Choice: " opt
-case $opt in
-	1)
+maxargu='1'
+if [[ "$#" -gt "$maxargu" ]]; then
+	echo "Too many arguments."
+	sleep 2
+	exit
+elif [[ "$#" -lt "$maxargu" ]]; then
+	show_menu(){
 		clear
-		./Bruteforcing/hydraautomated
-		;;
-	2)
-		clear
-		./Network/Attack/mdk4automated
-		;;
-	3)
-		clear
-		./Web/Discovery/gobusterautomated
-		;;
-	4)
-		clear
-		./Bruteforcing/johnwifiautomated
-		;;
-	5)
-		clear
-		./Web/Discovery/dirbautomated
-		;;
-	6)
-		clear
-		./Network/Me/NetworkManager.sh
-		;;
-	7)
-		clear
-		./Network/Me/fixint.sh
-		;;
-	*)
-		clear
-		echo "Not an option."
-		sleep 1
-		;;
-	esac
-exit
+		echo -e "${highintred}------------------------${reset}"
+		echo -e "${highintred}--Shell-Script-Manager--${reset}"
+		echo -e "${highintred}------------------------${reset}"
+		echo
+		echo "========================"
+		echo -e "${boldgreen}[1] Hydra Automated${reset}"
+		echo -e "${boldgreen}[2] MDK4 Automated${reset}"
+		echo -e "${boldgreen}[3] Gobuster Automated${reset}"
+		echo -e "${boldgreen}[4] John WiFi Automated${reset}"
+		echo -e "${boldgreen}[5] dirb Automated"
+		echo -e "${boldgreen}[6] Network Manager${reset}"
+		echo -e "${boldgreen}[7] Fix Interface${reset}"
+		echo "========================"
+		echo
+		echo "(To skip menu type ./shell-script-manager <choice> )"
+		read -p "$(echo -e "${boldblue}Choice:${reset}")" opt
+		case $opt in
+			1)
+				clear
+				echo "You picked Hydra Automated."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Bruteforcing/hydraautomated
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			2)
+				clear
+				echo "You picked MDK4 Automated."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Network/Attack/mdk4automated
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			3)
+				clear
+				echo "You picked Gobuster Automated."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Web/Discovery/gobusterautomated
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			4)
+				clear
+				echo "You picked Gobuster Automated."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Bruteforcing/johnwifiautomated
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			5)
+				clear
+				echo "You picked dirb Automated."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Web/Discovery/dirbautomated
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			6)
+				clear
+				echo "You picked Network Manager."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Network/Me/NetworkManager.sh
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			7)
+				clear
+				echo "You picked Fix Interface."
+				read -p "Are you sure? [Y/N] " yn
+				case $yn in
+					[Yy])
+						./Network/Me/fixint.sh
+						;;
+					[Nn])
+						show_menu
+						;;
+					esac
+				;;
+			*)
+				clear
+				echo "Not an option."
+				sleep 1
+				;;
+			esac
+	}
+	show_menu
+elif [[ "$#" -eq "$maxargu" ]]; then
+	case $1 in
+		1)
+			clear
+			echo "You picked Hydra Automated."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Bruteforcing/hydraautomated
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		2)
+			clear
+			echo "You picked MDK4 Automated."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Network/Attack/mdk4automated
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		3)
+			clear
+			echo "You picked Gobuster Automated."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Web/Discovery/gobusterautomated
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		4)
+			clear
+			echo "You picked John WiFi Automated."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Bruteforcing/johnwifiautomated
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		5)
+			clear
+			echo "You picked dirb Automated."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Web/Discovery/dirbautomated
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		6)
+			clear
+			echo "You Picked Network Manager."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Network/Me/NetworkManager.sh
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		7)
+			clear
+			echo "You Picked Fix Interface."
+			read -p "Are you sure? [Y/N] " yn
+			case $yn in
+				[Yy])
+					./Network/Me/fixint.sh
+					;;
+				[Nn])
+					exit
+					;;
+				esac
+			;;
+		esac
+fi

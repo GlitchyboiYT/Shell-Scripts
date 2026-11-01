@@ -1,0 +1,28 @@
+#!/bin/bash
+clear
+boldhighintred='\033[1;91m'
+highintred='\033[0;91m'
+boldgreen='\033[1;32m'
+reset='\033[0m'
+echo -e "${highintred}-----------------------${reset}"
+echo -e "${boldhighintred}--Welcome-to-EZ-Proxy--${reset}"
+echo -e "${highintred}-----------------------${reset}"
+echo
+echo "=================="
+echo -e "${boldgreen}[1] Proxychains4${reset}"
+echo "=================="
+echo
+read -p "Which Proxy do you want to use: " prox
+case $prox in
+	1)
+		clear
+		echo "Proxychains4 Selected."
+		read -p "Command: " com
+		proxychains4 $com
+
+
+		echo
+		read -p "Press Enter to continue." temp
+		;;
+	esac
+exit
